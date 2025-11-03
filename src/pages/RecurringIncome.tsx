@@ -150,7 +150,7 @@ export function RecurringIncome() {
 
     // Quarterly advance payments: 20% of quarterly income, paid 4 times per year
     const quarterlyIncome = annualBaseIncome / 4;
-    const quarterlyAdvancePayment = quarterlyIncome * 0.20;
+    const quarterlyAdvancePayment = quarterlyIncome * 0.2;
     const annualAdvancePayments = quarterlyAdvancePayment * 4;
 
     // Annual Renta: Total IRPF - Advance payments - Withheld IRPF
@@ -189,7 +189,6 @@ export function RecurringIncome() {
 
     // Check each month of the year
     for (let month = 0; month < 12; month++) {
-      const testDate = new Date(year, month, 1);
       data.recurringIncome.forEach((item) => {
         // Check if item is active for this month
         const isActive = (() => {
@@ -270,7 +269,7 @@ export function RecurringIncome() {
 
     // Calculate quarterly advance payments (20% of net quarterly income)
     const quarterlyNetIncome = netTaxableIncome / 4;
-    const annualAdvancePayments = quarterlyNetIncome * 0.20 * 4;
+    const annualAdvancePayments = quarterlyNetIncome * 0.2 * 4;
 
     // Calculate Renta
     const annualRenta = Math.max(0, annualIRPFTotal - annualAdvancePayments - yearlyIRPFWithheld);
@@ -324,9 +323,7 @@ export function RecurringIncome() {
             <p className="text-3xl font-bold text-purple-600">
               {formatCurrency(taxInfo.quarterlyIVA)}
             </p>
-            <p className="text-sm text-gray-600 mt-1">
-              Paid in Jan, Apr, Jul, Oct (20th)
-            </p>
+            <p className="text-sm text-gray-600 mt-1">Paid in Jan, Apr, Jul, Oct (20th)</p>
             <p className="text-xs text-gray-500 mt-1">
               Annual: {formatCurrency(taxInfo.annualIVA)}
             </p>
@@ -341,9 +338,7 @@ export function RecurringIncome() {
             <p className="text-3xl font-bold text-purple-600">
               {formatCurrency(taxInfo.quarterlyAdvancePayment)}
             </p>
-            <p className="text-sm text-gray-600 mt-1">
-              20% advance (Jan, Apr, Jul, Oct)
-            </p>
+            <p className="text-sm text-gray-600 mt-1">20% advance (Jan, Apr, Jul, Oct)</p>
             <p className="text-xs text-gray-500 mt-1">
               Total advances: {formatCurrency(taxInfo.annualAdvancePayments)}
             </p>
@@ -358,9 +353,7 @@ export function RecurringIncome() {
             <p className="text-3xl font-bold text-purple-600">
               {formatCurrency(taxInfo.annualRenta)}
             </p>
-            <p className="text-sm text-gray-600 mt-1">
-              Final settlement after advances
-            </p>
+            <p className="text-sm text-gray-600 mt-1">Final settlement after advances</p>
             <p className="text-xs text-gray-500 mt-1">
               Total IRPF: {formatCurrency(taxInfo.annualIRPFTotal)}
             </p>
@@ -376,20 +369,41 @@ export function RecurringIncome() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Quarterly Payments (20th of month):</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                Quarterly Payments (20th of month):
+              </h3>
               <ul className="space-y-1 text-gray-600">
-                <li>• <strong>January 20:</strong> IRPF {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA {formatCurrency(taxInfo.quarterlyIVA)} (Oct-Dec)</li>
-                <li>• <strong>April 20:</strong> IRPF {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA {formatCurrency(taxInfo.quarterlyIVA)} (Jan-Mar)</li>
-                <li>• <strong>July 20:</strong> IRPF {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA {formatCurrency(taxInfo.quarterlyIVA)} (Apr-Jun)</li>
-                <li>• <strong>October 20:</strong> IRPF {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA {formatCurrency(taxInfo.quarterlyIVA)} (Jul-Sep)</li>
+                <li>
+                  • <strong>January 20:</strong> IRPF{' '}
+                  {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA{' '}
+                  {formatCurrency(taxInfo.quarterlyIVA)} (Oct-Dec)
+                </li>
+                <li>
+                  • <strong>April 20:</strong> IRPF{' '}
+                  {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA{' '}
+                  {formatCurrency(taxInfo.quarterlyIVA)} (Jan-Mar)
+                </li>
+                <li>
+                  • <strong>July 20:</strong> IRPF {formatCurrency(taxInfo.quarterlyAdvancePayment)}{' '}
+                  + IVA {formatCurrency(taxInfo.quarterlyIVA)} (Apr-Jun)
+                </li>
+                <li>
+                  • <strong>October 20:</strong> IRPF{' '}
+                  {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA{' '}
+                  {formatCurrency(taxInfo.quarterlyIVA)} (Jul-Sep)
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Annual Payment:</h3>
               <ul className="space-y-1 text-gray-600">
-                <li>• <strong>July 31:</strong> Renta {formatCurrency(taxInfo.annualRenta)}</li>
+                <li>
+                  • <strong>July 31:</strong> Renta {formatCurrency(taxInfo.annualRenta)}
+                </li>
                 <li className="text-xs mt-2">
-                  (Total IRPF {formatCurrency(taxInfo.annualIRPFTotal)} - Advances {formatCurrency(taxInfo.annualAdvancePayments)} - Withheld {formatCurrency(taxInfo.annualIRPFWithheld)})
+                  (Total IRPF {formatCurrency(taxInfo.annualIRPFTotal)} - Advances{' '}
+                  {formatCurrency(taxInfo.annualAdvancePayments)} - Withheld{' '}
+                  {formatCurrency(taxInfo.annualIRPFWithheld)})
                 </li>
               </ul>
             </div>

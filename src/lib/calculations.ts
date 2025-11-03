@@ -17,7 +17,6 @@ function calculateProgressiveIRPF(annualIncome: number, brackets: IRPFBracket[])
   const sortedBrackets = [...brackets].sort((a, b) => a.fromAmount - b.fromAmount);
 
   let totalTax = 0;
-  let remainingIncome = annualIncome;
 
   for (const bracket of sortedBrackets) {
     // Skip if we haven't reached this bracket yet
@@ -271,7 +270,8 @@ export function calculateProjections(data: FinancialData, maxDate: Date): Monthl
 
     // Check if this month has a quarterly payment (January, April, July, October)
     // Payment on 20th covers the previous quarter
-    if ([0, 3, 6, 9].includes(month)) { // Jan=0, Apr=3, Jul=6, Oct=9
+    if ([0, 3, 6, 9].includes(month)) {
+      // Jan=0, Apr=3, Jul=6, Oct=9
       // Calculate which quarter we're paying for
       const paymentYear = month === 0 ? year - 1 : year; // January pays for previous year's Q4
       const quarterStartMonth = month === 0 ? 9 : month - 3; // Q1: Jan-Mar, Q2: Apr-Jun, Q3: Jul-Sep, Q4: Oct-Dec
@@ -301,7 +301,7 @@ export function calculateProjections(data: FinancialData, maxDate: Date): Monthl
 
       // IRPF: Pay 20% of net quarter income (income - professional expenses) as advance payment
       const netQuarterIncome = Math.max(0, quarterIncome - quarterProfessionalExpenses);
-      quarterlyIRPF = netQuarterIncome * 0.20;
+      quarterlyIRPF = netQuarterIncome * 0.2;
 
       // IVA: Return all IVA collected in the quarter
       quarterlyIVA = quarterIVA;
@@ -326,9 +326,9 @@ export function calculateProjections(data: FinancialData, maxDate: Date): Monthl
       let actualAdvancePayments = 0;
 
       const quarters = [
-        { quarterMonths: [0, 1, 2], paymentYear: previousYear },   // Q1: Jan-Mar (paid April)
-        { quarterMonths: [3, 4, 5], paymentYear: previousYear },   // Q2: Apr-Jun (paid July)
-        { quarterMonths: [6, 7, 8], paymentYear: previousYear },   // Q3: Jul-Sep (paid October)
+        { quarterMonths: [0, 1, 2], paymentYear: previousYear }, // Q1: Jan-Mar (paid April)
+        { quarterMonths: [3, 4, 5], paymentYear: previousYear }, // Q2: Apr-Jun (paid July)
+        { quarterMonths: [6, 7, 8], paymentYear: previousYear }, // Q3: Jul-Sep (paid October)
         { quarterMonths: [9, 10, 11], paymentYear: previousYear }, // Q4: Oct-Dec (paid January next year)
       ];
 
@@ -349,11 +349,14 @@ export function calculateProjections(data: FinancialData, maxDate: Date): Monthl
             });
         }
         const netQuarterIncome = Math.max(0, quarterIncome - quarterProfessionalExpenses);
-        actualAdvancePayments += netQuarterIncome * 0.20;
+        actualAdvancePayments += netQuarterIncome * 0.2;
       }
 
       // Renta = Total IRPF - Advance payments - Already withheld IRPF
-      annualRenta = Math.max(0, annualIRPFTotal - actualAdvancePayments - prevYearData.irpfWithheld);
+      annualRenta = Math.max(
+        0,
+        annualIRPFTotal - actualAdvancePayments - prevYearData.irpfWithheld
+      );
 
       // Debug logging
       console.log(`=== Renta Calculation for ${year}-07 (previous year: ${previousYear}) ===`);
@@ -368,7 +371,15 @@ export function calculateProjections(data: FinancialData, maxDate: Date): Monthl
 
     // Calculate ending balance
     const endingBalance =
-      currentBalance + totalIncome + oneOffIncome - totalExpenses - oneOffExpenses - loanPayments - quarterlyIRPF - quarterlyIVA - annualRenta;
+      currentBalance +
+      totalIncome +
+      oneOffIncome -
+      totalExpenses -
+      oneOffExpenses -
+      loanPayments -
+      quarterlyIRPF -
+      quarterlyIVA -
+      annualRenta;
 
     projections.push({
       month: currentDate.toISOString().slice(0, 7),

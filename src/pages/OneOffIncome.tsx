@@ -95,7 +95,9 @@ export function OneOffIncome() {
   };
 
   // Sort by net amount descending
-  const sortedIncome = [...data.oneOffIncome].sort((a, b) => calculateNetIncome(b) - calculateNetIncome(a));
+  const sortedIncome = [...data.oneOffIncome].sort(
+    (a, b) => calculateNetIncome(b) - calculateNetIncome(a)
+  );
 
   const total = data.oneOffIncome.reduce((sum, item) => sum + calculateNetIncome(item), 0);
 
@@ -158,11 +160,13 @@ export function OneOffIncome() {
                       ) : (
                         <div className="mt-2 text-xs text-gray-600">
                           <div>Base: {formatCurrency(item.amount)}</div>
-                          <div className={item.iva ? "text-green-600" : "text-gray-400"}>
-                            +IVA ({item.iva || 0}%): {formatCurrency(item.iva ? item.amount * (item.iva / 100) : 0)}
+                          <div className={item.iva ? 'text-green-600' : 'text-gray-400'}>
+                            +IVA ({item.iva || 0}%):{' '}
+                            {formatCurrency(item.iva ? item.amount * (item.iva / 100) : 0)}
                           </div>
-                          <div className={item.irpf ? "text-red-600" : "text-gray-400"}>
-                            -IRPF ({item.irpf || 0}%): {formatCurrency(item.irpf ? item.amount * (item.irpf / 100) : 0)}
+                          <div className={item.irpf ? 'text-red-600' : 'text-gray-400'}>
+                            -IRPF ({item.irpf || 0}%):{' '}
+                            {formatCurrency(item.irpf ? item.amount * (item.irpf / 100) : 0)}
                           </div>
                         </div>
                       )}

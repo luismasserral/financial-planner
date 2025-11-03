@@ -19,7 +19,8 @@ export function IRPFSettings() {
 
   // Calculate progressive IRPF tax
   const calculateTaxBreakdown = (annualIncome: number) => {
-    if (irpfBrackets.length === 0 || annualIncome <= 0) return { breakdown: [], total: 0, effectiveRate: 0 };
+    if (irpfBrackets.length === 0 || annualIncome <= 0)
+      return { breakdown: [], total: 0, effectiveRate: 0 };
 
     const sortedBrackets = [...irpfBrackets].sort((a, b) => a.fromAmount - b.fromAmount);
     const breakdown: Array<{ bracket: IRPFBracket; incomeInBracket: number; tax: number }> = [];
@@ -85,9 +86,7 @@ export function IRPFSettings() {
     if (editingItem) {
       // Update existing
       const updatedBrackets = irpfBrackets.map((bracket) =>
-        bracket.id === editingItem.id
-          ? { ...bracket, fromAmount, toAmount, rate }
-          : bracket
+        bracket.id === editingItem.id ? { ...bracket, fromAmount, toAmount, rate } : bracket
       );
       updateData({
         ...data,
@@ -153,9 +152,9 @@ export function IRPFSettings() {
                 tax rate for income projections.
               </p>
               <p className="text-sm text-gray-600 mt-2">
-                <strong>Example:</strong> If you earn €25,000 per year with brackets of 19% (€0-€15,000)
-                and 24% (€15,001-€30,000), you'll pay 19% on the first €15,000 and 24% on the remaining
-                €10,000.
+                <strong>Example:</strong> If you earn €25,000 per year with brackets of 19%
+                (€0-€15,000) and 24% (€15,001-€30,000), you'll pay 19% on the first €15,000 and 24%
+                on the remaining €10,000.
               </p>
             </div>
           </div>
@@ -193,7 +192,10 @@ export function IRPFSettings() {
                     <div className="space-y-3">
                       {taxResult.breakdown.map((item, index) => {
                         const from = formatCurrency(item.bracket.fromAmount);
-                        const to = item.bracket.toAmount !== null ? formatCurrency(item.bracket.toAmount) : '∞';
+                        const to =
+                          item.bracket.toAmount !== null
+                            ? formatCurrency(item.bracket.toAmount)
+                            : '∞';
 
                         return (
                           <div key={index} className="bg-gray-50 p-4 rounded-lg">
@@ -299,9 +301,7 @@ export function IRPFSettings() {
                   >
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-900">{formatRange(bracket)}</h3>
-                      <p className="text-sm text-gray-500">
-                        Income range
-                      </p>
+                      <p className="text-sm text-gray-500">Income range</p>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
