@@ -48,7 +48,15 @@ export function ProgressTracking() {
     month: proj.month,
     balance: proj.endingBalance,
     income: proj.totalIncome,
-    expenses: proj.totalExpenses + proj.loanPayments,
+    expenses:
+      proj.totalExpenses +
+      proj.loanPayments +
+      proj.irpfQuarterly +
+      proj.ivaPayment +
+      proj.rentaPayment,
+    irpfQuarterly: proj.irpfQuarterly,
+    ivaPayment: proj.ivaPayment,
+    rentaPayment: proj.rentaPayment,
   }));
 
   return (
@@ -59,7 +67,7 @@ export function ProgressTracking() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
         <Card>
           <CardHeader>
             <CardTitle>Starting Balance</CardTitle>
@@ -72,7 +80,7 @@ export function ProgressTracking() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Projected Final Balance</CardTitle>
+            <CardTitle>Projected Balance</CardTitle>
           </CardHeader>
           <CardContent>
             <p
@@ -84,6 +92,30 @@ export function ProgressTracking() {
             >
               {formatCurrency(projections[projections.length - 1]?.endingBalance || 0)}
             </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Total IRPF Taxes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold text-purple-600">
+              {formatCurrency(
+                projections.reduce((sum, proj) => sum + proj.irpfQuarterly + proj.rentaPayment, 0)
+              )}
+            </p>
+            <p className="text-sm text-gray-600 mt-1">Quarterly + Annual Renta</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Total IVA Payments</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold text-purple-600">
+              {formatCurrency(projections.reduce((sum, proj) => sum + proj.ivaPayment, 0))}
+            </p>
+            <p className="text-sm text-gray-600 mt-1">Quarterly returns</p>
           </CardContent>
         </Card>
         <Card>
@@ -187,6 +219,15 @@ export function ProgressTracking() {
                     Loan Payments
                   </th>
                   <th className="text-right py-3 px-4 font-semibold text-gray-700">
+                    IRPF (Quarterly)
+                  </th>
+                  <th className="text-right py-3 px-4 font-semibold text-gray-700">
+                    IVA (Quarterly)
+                  </th>
+                  <th className="text-right py-3 px-4 font-semibold text-gray-700">
+                    Renta (Annual)
+                  </th>
+                  <th className="text-right py-3 px-4 font-semibold text-gray-700">
                     One-off Income
                   </th>
                   <th className="text-right py-3 px-4 font-semibold text-gray-700">
@@ -210,6 +251,15 @@ export function ProgressTracking() {
                     </td>
                     <td className="text-right py-3 px-4 text-orange-600">
                       {formatCurrency(proj.loanPayments)}
+                    </td>
+                    <td className="text-right py-3 px-4 text-purple-600">
+                      {proj.irpfQuarterly > 0 ? formatCurrency(proj.irpfQuarterly) : '-'}
+                    </td>
+                    <td className="text-right py-3 px-4 text-purple-600">
+                      {proj.ivaPayment > 0 ? formatCurrency(proj.ivaPayment) : '-'}
+                    </td>
+                    <td className="text-right py-3 px-4 text-purple-600">
+                      {proj.rentaPayment > 0 ? formatCurrency(proj.rentaPayment) : '-'}
                     </td>
                     <td className="text-right py-3 px-4 text-green-600">
                       {proj.oneOffIncome > 0 ? formatCurrency(proj.oneOffIncome) : '-'}

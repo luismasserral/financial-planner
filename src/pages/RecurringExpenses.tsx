@@ -12,7 +12,13 @@ export function RecurringExpenses() {
   const { data, updateData } = useFinancial();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<RecurringExpense | null>(null);
-  const [formData, setFormData] = useState({ title: '', amount: '', startDate: '', endDate: '' });
+  const [formData, setFormData] = useState({
+    title: '',
+    amount: '',
+    startDate: '',
+    endDate: '',
+    isProfessional: false,
+  });
 
   const handleOpenModal = (item?: RecurringExpense) => {
     if (item) {
@@ -22,10 +28,11 @@ export function RecurringExpenses() {
         amount: item.amount.toString(),
         startDate: item.startDate || '',
         endDate: item.endDate || '',
+        isProfessional: item.isProfessional || false,
       });
     } else {
       setEditingItem(null);
-      setFormData({ title: '', amount: '', startDate: '', endDate: '' });
+      setFormData({ title: '', amount: '', startDate: '', endDate: '', isProfessional: false });
     }
     setIsModalOpen(true);
   };
@@ -33,7 +40,7 @@ export function RecurringExpenses() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingItem(null);
-    setFormData({ title: '', amount: '', startDate: '', endDate: '' });
+    setFormData({ title: '', amount: '', startDate: '', endDate: '', isProfessional: false });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -51,6 +58,7 @@ export function RecurringExpenses() {
               amount,
               startDate: formData.startDate || undefined,
               endDate: formData.endDate || undefined,
+              isProfessional: formData.isProfessional,
             }
           : item
       );
@@ -62,6 +70,7 @@ export function RecurringExpenses() {
         amount,
         startDate: formData.startDate || undefined,
         endDate: formData.endDate || undefined,
+        isProfessional: formData.isProfessional,
       };
       updateData({ ...data, recurringExpenses: [...data.recurringExpenses, newItem] });
     }
@@ -77,6 +86,9 @@ export function RecurringExpenses() {
   };
 
   const total = data.recurringExpenses.reduce((sum, item) => sum + item.amount, 0);
+  const professionalExpensesTotal = data.recurringExpenses
+    .filter((item) => item.isProfessional)
+    .reduce((sum, item) => sum + item.amount, 0);
   const deviation = data.settings.monthlyExpensesDeviation || 0;
   const deviationAmount = total * (deviation / 100);
   const totalWithDeviation = total + deviationAmount;
@@ -92,13 +104,25 @@ export function RecurringExpenses() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
         <Card>
           <CardHeader>
             <CardTitle>Base Monthly Expenses</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold text-red-600">{formatCurrency(total)}</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Professional Expenses</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-bold text-purple-600">
+              {formatCurrency(professionalExpensesTotal)}
+            </p>
+            <p className="text-sm text-gray-600 mt-2">Tax-deductible expenses</p>
           </CardContent>
         </Card>
 
@@ -133,10 +157,19 @@ export function RecurringExpenses() {
               {sortedExpenses.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
+                  className={`flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 ${
+                    item.isProfessional ? 'border-purple-300 bg-purple-50' : 'border-gray-200'
+                  }`}
                 >
                   <div>
-                    <h3 className="font-medium text-gray-900">{item.title}</h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-medium text-gray-900">{item.title}</h3>
+                      {item.isProfessional && (
+                        <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full font-medium">
+                          Professional
+                        </span>
+                      )}
+                    </div>
                     <p className="text-sm text-gray-500">Monthly</p>
                   </div>
                   <div className="flex items-center gap-4">
@@ -193,9 +226,21 @@ export function RecurringExpenses() {
             value={formData.endDate}
             onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
           />
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="isProfessional"
+              checked={formData.isProfessional}
+              onChange={(e) => setFormData({ ...formData, isProfessional: e.target.checked })}
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            />
+            <label htmlFor="isProfessional" className="text-sm font-medium text-gray-700">
+              Professional expense (tax-deductible)
+            </label>
+          </div>
           <p className="text-sm text-gray-600">
             Leave dates empty for expense that is always active. Set dates to limit when this
-            expense applies.
+            expense applies. Mark as professional if this expense is tax-deductible.
           </p>
           <div className="flex gap-2 justify-end">
             <Button type="button" variant="secondary" onClick={handleCloseModal}>

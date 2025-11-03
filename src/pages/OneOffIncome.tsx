@@ -12,7 +12,7 @@ export function OneOffIncome() {
   const { data, updateData } = useFinancial();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<OneOffIncomeType | null>(null);
-  const [formData, setFormData] = useState({ title: '', amount: '', date: '' });
+  const [formData, setFormData] = useState({ title: '', amount: '', date: '', iva: '', irpf: '' });
 
   const handleOpenModal = (item?: OneOffIncomeType) => {
     if (item) {
@@ -20,11 +20,17 @@ export function OneOffIncome() {
       if (item.isFromHouseSale) return;
 
       setEditingItem(item);
-      setFormData({ title: item.title, amount: item.amount.toString(), date: item.date });
+      setFormData({
+        title: item.title,
+        amount: item.amount.toString(),
+        date: item.date,
+        iva: item.iva?.toString() || '',
+        irpf: item.irpf?.toString() || '',
+      });
     } else {
       setEditingItem(null);
       const today = new Date().toISOString().split('T')[0];
-      setFormData({ title: '', amount: '', date: today });
+      setFormData({ title: '', amount: '', date: today, iva: '', irpf: '' });
     }
     setIsModalOpen(true);
   };
@@ -40,10 +46,13 @@ export function OneOffIncome() {
     const amount = parseFloat(formData.amount);
     if (!formData.title || isNaN(amount) || !formData.date) return;
 
+    const iva = formData.iva ? parseFloat(formData.iva) : undefined;
+    const irpf = formData.irpf ? parseFloat(formData.irpf) : undefined;
+
     if (editingItem) {
       const updatedItems = data.oneOffIncome.map((item) =>
         item.id === editingItem.id
-          ? { ...item, title: formData.title, amount, date: formData.date }
+          ? { ...item, title: formData.title, amount, date: formData.date, iva, irpf }
           : item
       );
       updateData({ ...data, oneOffIncome: updatedItems });
@@ -53,6 +62,8 @@ export function OneOffIncome() {
         title: formData.title,
         amount,
         date: formData.date,
+        iva,
+        irpf,
       };
       updateData({ ...data, oneOffIncome: [...data.oneOffIncome, newItem] });
     }
@@ -71,10 +82,22 @@ export function OneOffIncome() {
     }
   };
 
-  // Sort by amount descending
-  const sortedIncome = [...data.oneOffIncome].sort((a, b) => b.amount - a.amount);
+  // Calculate net income after IVA and IRPF
+  const calculateNetIncome = (item: OneOffIncomeType) => {
+    let netAmount = item.amount;
+    if (item.iva) {
+      netAmount += item.amount * (item.iva / 100);
+    }
+    if (item.irpf) {
+      netAmount -= item.amount * (item.irpf / 100);
+    }
+    return netAmount;
+  };
 
-  const total = data.oneOffIncome.reduce((sum, item) => sum + item.amount, 0);
+  // Sort by net amount descending
+  const sortedIncome = [...data.oneOffIncome].sort((a, b) => calculateNetIncome(b) - calculateNetIncome(a));
+
+  const total = data.oneOffIncome.reduce((sum, item) => sum + calculateNetIncome(item), 0);
 
   return (
     <div>
@@ -105,6 +128,8 @@ export function OneOffIncome() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {sortedIncome.map((item) => {
                 const isHouseSale = item.isFromHouseSale === true;
+                const netIncome = calculateNetIncome(item);
+                const hasTaxes = item.iva || item.irpf;
 
                 return (
                   <div
@@ -126,16 +151,29 @@ export function OneOffIncome() {
                         )}
                       </div>
                       <p className="text-sm text-gray-500">{formatDate(item.date)}</p>
-                      {isHouseSale && (
+                      {isHouseSale ? (
                         <p className="text-xs text-blue-600 mt-1">
                           Managed from Selling House page
                         </p>
+                      ) : (
+                        <div className="mt-2 text-xs text-gray-600">
+                          <div>Base: {formatCurrency(item.amount)}</div>
+                          <div className={item.iva ? "text-green-600" : "text-gray-400"}>
+                            +IVA ({item.iva || 0}%): {formatCurrency(item.iva ? item.amount * (item.iva / 100) : 0)}
+                          </div>
+                          <div className={item.irpf ? "text-red-600" : "text-gray-400"}>
+                            -IRPF ({item.irpf || 0}%): {formatCurrency(item.irpf ? item.amount * (item.irpf / 100) : 0)}
+                          </div>
+                        </div>
                       )}
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="text-lg font-semibold text-green-600">
-                        {formatCurrency(item.amount)}
-                      </span>
+                      <div className="text-right">
+                        <span className="text-lg font-semibold text-green-600">
+                          {formatCurrency(netIncome)}
+                        </span>
+                        {hasTaxes && <div className="text-xs text-gray-500">Net</div>}
+                      </div>
                       {!isHouseSale && (
                         <div className="flex gap-2">
                           <Button variant="ghost" size="sm" onClick={() => handleOpenModal(item)}>
@@ -177,6 +215,31 @@ export function OneOffIncome() {
             placeholder="0.00"
             required
           />
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="IVA % (Optional)"
+              type="number"
+              step="0.01"
+              min="0"
+              max="100"
+              value={formData.iva}
+              onChange={(e) => setFormData({ ...formData, iva: e.target.value })}
+              placeholder="e.g., 21"
+            />
+            <Input
+              label="IRPF % (Optional)"
+              type="number"
+              step="0.01"
+              min="0"
+              max="100"
+              value={formData.irpf}
+              onChange={(e) => setFormData({ ...formData, irpf: e.target.value })}
+              placeholder="e.g., 15"
+            />
+          </div>
+          <p className="text-sm text-gray-600">
+            IVA is added to the amount, IRPF is subtracted. Leave empty if not applicable.
+          </p>
           <Input
             label="Date"
             type="date"

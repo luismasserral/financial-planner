@@ -12,6 +12,7 @@ import { OneOffIncome } from './pages/OneOffIncome';
 import { OneOffExpenses } from './pages/OneOffExpenses';
 import { Settings } from './pages/Settings';
 import { DataManagement } from './pages/DataManagement';
+import { IRPFSettings } from './pages/IRPFSettings';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/one-off-income" element={<OneOffIncome />} />
             <Route path="/one-off-expenses" element={<OneOffExpenses />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/irpf-settings" element={<IRPFSettings />} />
             <Route path="/data-management" element={<DataManagement />} />
           </Routes>
         </Layout>

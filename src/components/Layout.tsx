@@ -11,6 +11,7 @@ import {
   Settings,
   Database,
   BarChart3,
+  Percent,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -28,6 +29,7 @@ const menuItems = [
   { icon: PlusCircle, label: 'One-off Income', path: '/one-off-income' },
   { icon: MinusCircle, label: 'One-off Expenses', path: '/one-off-expenses' },
   { icon: Settings, label: 'Settings', path: '/settings' },
+  { icon: Percent, label: 'IRPF Settings', path: '/irpf-settings' },
   { icon: Database, label: 'Data Management', path: '/data-management' },
 ];
 
@@ -36,7 +38,7 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <div className="flex h-screen bg-gray-50">
-      <div className="flex w-full max-w-[1600px] mx-auto h-full">
+      <div className="flex w-full max-w-[2560px] mx-auto h-full">
         {/* Sidebar */}
         <aside className="w-64 bg-white border-r border-gray-200">
           <div className="p-6">

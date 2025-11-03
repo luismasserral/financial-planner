@@ -3,30 +3,36 @@
     {
       "id": "13aac333-56f5-42c4-8c08-84766eb48ff4",
       "title": "Stravito",
-      "amount": 5400
+      "amount": 8420,
+      "startDate": "2025-01-01"
     },
     {
       "id": "0476c325-d149-440b-a526-249bf8b0d1e3",
       "title": "Colba",
-      "amount": 3300,
-      "endDate": "2026-09-01"
+      "amount": 4800,
+      "endDate": "2026-06-30",
+      "iva": 21,
+      "irpf": 15,
+      "startDate": "2025-09-01"
     }
   ],
   "recurringExpenses": [
     {
       "id": "fe796774-c6ad-4605-809c-47e5369a4335",
       "title": "Freelance Quote",
-      "amount": 540
+      "amount": 540,
+      "isProfessional": true
     },
     {
       "id": "1f416fe6-1a6a-4704-a11a-5cc86e0d46b2",
       "title": "Talenom",
-      "amount": 80
+      "amount": 80,
+      "isProfessional": true
     },
     {
       "id": "0ab0eb0d-8cf2-4f3f-a085-11fe6cbe9ab4",
       "title": "Shared Expenses",
-      "amount": 300
+      "amount": 400
     },
     {
       "id": "975acfeb-891e-4574-b78a-f0cffb1ae4d3",
@@ -207,7 +213,7 @@
     {
       "id": "a4f0d335-7f16-463d-bacc-be658bf65df2",
       "title": "New House Contract",
-      "amount": 34000,
+      "amount": 37850,
       "date": "2025-12-15"
     }
   ],
@@ -215,7 +221,7 @@
     {
       "id": "house-sale-income",
       "title": "House Sale Proceeds",
-      "amount": 50406.57456577284,
+      "amount": 57301.65456577285,
       "date": "2026-01-15",
       "isFromHouseSale": true
     }
@@ -224,10 +230,48 @@
     "startingBalance": 22000,
     "progressTrackingDate": "2027-10-31T23:00:00.000Z",
     "dashboardDate": "2027-10-31T23:00:00.000Z",
-    "monthlyExpensesDeviation": 10
+    "monthlyExpensesDeviation": 10,
+    "irpfBrackets": [
+      {
+        "id": "30de8838-559b-4225-8155-593e1baeeec3",
+        "fromAmount": 0,
+        "toAmount": 12450,
+        "rate": 19
+      },
+      {
+        "id": "ebcad1ef-523e-48fb-8d52-c06b4c665a28",
+        "fromAmount": 12451,
+        "toAmount": 20200,
+        "rate": 24
+      },
+      {
+        "id": "13e1b89c-fcac-469c-a6fa-b1ac5d5388da",
+        "fromAmount": 20201,
+        "toAmount": 35200,
+        "rate": 30
+      },
+      {
+        "id": "f59081ea-9e98-448d-9935-0b19578f0325",
+        "fromAmount": 35201,
+        "toAmount": 60000,
+        "rate": 37
+      },
+      {
+        "id": "12163a2a-8d68-4d6d-a165-b8a592a4d892",
+        "fromAmount": 60001,
+        "toAmount": 300000,
+        "rate": 45
+      },
+      {
+        "id": "6ef04179-b778-4790-8615-34f789d2f6b1",
+        "fromAmount": 300001,
+        "toAmount": null,
+        "rate": 47
+      }
+    ]
   },
   "sellingHouse": {
-    "saleAmount": 430000,
+    "saleAmount": 438000,
     "selectedLoanIds": [
       "411922df-9f45-46c2-b9be-26cea52e2c07",
       "3c3495ef-eda5-4adf-8c3e-2963ff7e628e",
