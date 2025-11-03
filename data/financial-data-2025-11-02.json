@@ -1,0 +1,247 @@
+{
+  "recurringIncome": [
+    {
+      "id": "13aac333-56f5-42c4-8c08-84766eb48ff4",
+      "title": "Stravito",
+      "amount": 5400
+    },
+    {
+      "id": "0476c325-d149-440b-a526-249bf8b0d1e3",
+      "title": "Colba",
+      "amount": 3300,
+      "endDate": "2026-09-01"
+    }
+  ],
+  "recurringExpenses": [
+    {
+      "id": "fe796774-c6ad-4605-809c-47e5369a4335",
+      "title": "Freelance Quote",
+      "amount": 540
+    },
+    {
+      "id": "1f416fe6-1a6a-4704-a11a-5cc86e0d46b2",
+      "title": "Talenom",
+      "amount": 80
+    },
+    {
+      "id": "0ab0eb0d-8cf2-4f3f-a085-11fe6cbe9ab4",
+      "title": "Shared Expenses",
+      "amount": 300
+    },
+    {
+      "id": "975acfeb-891e-4574-b78a-f0cffb1ae4d3",
+      "title": "Lotery",
+      "amount": 60
+    },
+    {
+      "id": "a3132f6b-6494-432c-8d26-4393a17b752e",
+      "title": "Gas",
+      "amount": 50
+    },
+    {
+      "id": "7a251db3-da7a-4681-a5bd-bfdc12a062e6",
+      "title": "Unexpected",
+      "amount": 150
+    },
+    {
+      "id": "70a9a941-2499-40b1-8d5e-154312f2cfb9",
+      "title": "New House 20x",
+      "amount": 950,
+      "startDate": "2026-01-01",
+      "endDate": "2027-09-01"
+    }
+  ],
+  "loans": [
+    {
+      "id": "411922df-9f45-46c2-b9be-26cea52e2c07",
+      "title": "House Mortage",
+      "outstandingBalance": 266100,
+      "maturityDate": "2052-05-31",
+      "monthlyPayment": 886.79,
+      "interestRate": 1.25,
+      "startDate": "2022-06-30"
+    },
+    {
+      "id": "b6b447d6-7052-4dda-8ed1-508ca466b9fe",
+      "title": "Sabadell 1",
+      "outstandingBalance": 5000,
+      "maturityDate": "2030-11-30",
+      "monthlyPayment": 78.55,
+      "interestRate": 11,
+      "startDate": "2022-12-31"
+    },
+    {
+      "id": "b10d6064-368d-4730-9671-a9b234f06463",
+      "title": "Sabadell 2",
+      "outstandingBalance": 15000,
+      "maturityDate": "2033-07-31",
+      "monthlyPayment": 243.72,
+      "interestRate": 11.99,
+      "startDate": "2025-08-31"
+    },
+    {
+      "id": "508ef48f-adca-4213-a76d-45b91845d4da",
+      "title": "Car",
+      "outstandingBalance": 43748.87,
+      "maturityDate": "2032-01-31",
+      "monthlyPayment": 624.74,
+      "interestRate": 7.08,
+      "startDate": "2024-01-01"
+    },
+    {
+      "id": "3f68fa63-4458-4c0d-94ae-4c6153ef4287",
+      "title": "Cetelem 1",
+      "outstandingBalance": 4000,
+      "maturityDate": "2027-07-31",
+      "monthlyPayment": 105.32,
+      "interestRate": 14,
+      "startDate": "2023-06-30"
+    },
+    {
+      "id": "3c3495ef-eda5-4adf-8c3e-2963ff7e628e",
+      "title": "Cetelem House",
+      "outstandingBalance": 60000,
+      "maturityDate": "2030-05-31",
+      "monthlyPayment": 817.73,
+      "interestRate": 7.22,
+      "startDate": "2022-05-30"
+    },
+    {
+      "id": "2e7c4d37-cbf7-46c0-8e00-6ee9045d3fac",
+      "title": "ING 1",
+      "outstandingBalance": 24000,
+      "maturityDate": "2031-10-03",
+      "monthlyPayment": 361.2,
+      "interestRate": 7.22,
+      "startDate": "2024-11-03"
+    },
+    {
+      "id": "667b8487-4199-4d55-b5da-287f260735d3",
+      "title": "ING 2",
+      "outstandingBalance": 15000,
+      "maturityDate": "2029-09-03",
+      "monthlyPayment": 294.02,
+      "interestRate": 6.96,
+      "startDate": "2024-10-03"
+    },
+    {
+      "id": "6cffdf6c-8c11-438b-af81-519169271e46",
+      "title": "Sequra 1",
+      "outstandingBalance": 1358.38,
+      "maturityDate": "2026-09-05",
+      "monthlyPayment": 113.19,
+      "interestRate": 0,
+      "startDate": "2025-10-05"
+    },
+    {
+      "id": "07d030d2-49dd-4cfe-aab2-751e8dd0d05c",
+      "title": "El Corte Inglés 1",
+      "outstandingBalance": 8000,
+      "maturityDate": "2026-10-31",
+      "monthlyPayment": 224.75,
+      "interestRate": 16.5,
+      "startDate": "2022-11-30"
+    },
+    {
+      "id": "0fc4709b-6166-41b8-a1bf-118e0b4ee79e",
+      "title": "El Corte Inglés 2",
+      "outstandingBalance": 2159.2,
+      "maturityDate": "2026-01-31",
+      "monthlyPayment": 75.91,
+      "interestRate": 16,
+      "startDate": "2023-02-28"
+    },
+    {
+      "id": "4450aec8-612e-443a-845e-45ae0b758fe2",
+      "title": "Aplazame 1",
+      "outstandingBalance": 979.96,
+      "maturityDate": "2026-09-15",
+      "monthlyPayment": 81.66,
+      "interestRate": 0,
+      "startDate": "2025-09-15"
+    },
+    {
+      "id": "76393005-882c-44f7-a4fe-df58908eab82",
+      "title": "Aplazame 2",
+      "outstandingBalance": 818.05,
+      "maturityDate": "2025-12-05",
+      "monthlyPayment": 204.51,
+      "interestRate": 0,
+      "startDate": "2025-09-05"
+    },
+    {
+      "id": "04381363-d9dd-40d6-a1f3-34e82c6d95af",
+      "title": "Aplazame 3",
+      "outstandingBalance": 847.54,
+      "maturityDate": "2026-07-25",
+      "monthlyPayment": 33.9,
+      "interestRate": 0,
+      "startDate": "2024-07-25"
+    },
+    {
+      "id": "97087421-ca0e-4392-a0c6-54e538670435",
+      "title": "New House Morgage",
+      "outstandingBalance": 160000,
+      "maturityDate": "2057-09-01",
+      "monthlyPayment": 600,
+      "interestRate": 2,
+      "startDate": "2027-10-01"
+    },
+    {
+      "id": "1da08d21-1c87-41c3-887c-920d36d0ebfe",
+      "title": "New House Contract",
+      "outstandingBalance": 18000,
+      "maturityDate": "2030-11-01",
+      "monthlyPayment": 300,
+      "interestRate": 0,
+      "startDate": "2025-12-01"
+    }
+  ],
+  "oneOffExpenses": [
+    {
+      "id": "4b2e97cf-aa90-4067-b554-df990f6ca210",
+      "title": "New House Reservation",
+      "amount": 5000,
+      "date": "2025-11-10"
+    },
+    {
+      "id": "a4f0d335-7f16-463d-bacc-be658bf65df2",
+      "title": "New House Contract",
+      "amount": 34000,
+      "date": "2025-12-15"
+    }
+  ],
+  "oneOffIncome": [
+    {
+      "id": "house-sale-income",
+      "title": "House Sale Proceeds",
+      "amount": 50406.57456577284,
+      "date": "2026-01-15",
+      "isFromHouseSale": true
+    }
+  ],
+  "settings": {
+    "startingBalance": 22000,
+    "progressTrackingDate": "2027-10-31T23:00:00.000Z",
+    "dashboardDate": "2027-10-31T23:00:00.000Z",
+    "monthlyExpensesDeviation": 10
+  },
+  "sellingHouse": {
+    "saleAmount": 430000,
+    "selectedLoanIds": [
+      "411922df-9f45-46c2-b9be-26cea52e2c07",
+      "3c3495ef-eda5-4adf-8c3e-2963ff7e628e",
+      "b10d6064-368d-4730-9671-a9b234f06463",
+      "b6b447d6-7052-4dda-8ed1-508ca466b9fe",
+      "3f68fa63-4458-4c0d-94ae-4c6153ef4287",
+      "2e7c4d37-cbf7-46c0-8e00-6ee9045d3fac",
+      "667b8487-4199-4d55-b5da-287f260735d3",
+      "07d030d2-49dd-4cfe-aab2-751e8dd0d05c",
+      "4450aec8-612e-443a-845e-45ae0b758fe2",
+      "04381363-d9dd-40d6-a1f3-34e82c6d95af",
+      "6cffdf6c-8c11-438b-af81-519169271e46",
+      "1da08d21-1c87-41c3-887c-920d36d0ebfe"
+    ],
+    "sellingDate": "2026-01-15"
+  }
+}
