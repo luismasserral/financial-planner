@@ -8,9 +8,7 @@ import { formatCurrency } from '../lib/utils';
 
 export function Settings() {
   const { data, updateData } = useFinancial();
-  const [startingBalance, setStartingBalance] = useState(
-    data.settings.startingBalance.toString()
-  );
+  const [startingBalance, setStartingBalance] = useState(data.settings.startingBalance.toString());
   const [expensesDeviation, setExpensesDeviation] = useState(
     (data.settings.monthlyExpensesDeviation || 0).toString()
   );
@@ -99,7 +97,9 @@ export function Settings() {
                     <Save className="w-4 h-4 mr-2" />
                     Save Settings
                   </Button>
-                  {isSaved && <span className="text-green-600 font-medium">Saved successfully!</span>}
+                  {isSaved && (
+                    <span className="text-green-600 font-medium">Saved successfully!</span>
+                  )}
                 </div>
               </form>
             </CardContent>

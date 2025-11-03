@@ -108,9 +108,7 @@ export function RecurringExpenses() {
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold text-orange-600">{formatCurrency(deviationAmount)}</p>
-            <p className="text-sm text-gray-600 mt-2">
-              Accounts for unexpected expenses
-            </p>
+            <p className="text-sm text-gray-600 mt-2">Accounts for unexpected expenses</p>
           </CardContent>
         </Card>
 
@@ -146,18 +144,10 @@ export function RecurringExpenses() {
                       {formatCurrency(item.amount)}
                     </span>
                     <div className="flex gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleOpenModal(item)}
-                      >
+                      <Button variant="ghost" size="sm" onClick={() => handleOpenModal(item)}>
                         <Pencil className="w-4 h-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDelete(item.id)}
-                      >
+                      <Button variant="ghost" size="sm" onClick={() => handleDelete(item.id)}>
                         <Trash2 className="w-4 h-4 text-red-600" />
                       </Button>
                     </div>
@@ -204,7 +194,8 @@ export function RecurringExpenses() {
             onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
           />
           <p className="text-sm text-gray-600">
-            Leave dates empty for expense that is always active. Set dates to limit when this expense applies.
+            Leave dates empty for expense that is always active. Set dates to limit when this
+            expense applies.
           </p>
           <div className="flex gap-2 justify-end">
             <Button type="button" variant="secondary" onClick={handleCloseModal}>

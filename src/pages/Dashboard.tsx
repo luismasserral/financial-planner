@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TrendingUp, TrendingDown, Wallet, CreditCard } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { MonthPicker } from '../components/ui/MonthPicker';
 import { useFinancial } from '../context/FinancialContext';
-import { calculateMonthlyResult } from '../lib/calculations';
 import { formatCurrency } from '../lib/utils';
 
 // Helper function to calculate projection for a specific date

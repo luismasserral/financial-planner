@@ -110,16 +110,13 @@ function getOneOffItemsForMonth(
     .reduce((sum, item) => sum + item.amount, 0);
 }
 
-export function calculateProjections(
-  data: FinancialData,
-  maxDate: Date
-): MonthlyProjection[] {
+export function calculateProjections(data: FinancialData, maxDate: Date): MonthlyProjection[] {
   const projections: MonthlyProjection[] = [];
   const startDate = new Date();
   startDate.setDate(1); // Start from first of current month
 
   let currentBalance = data.settings.startingBalance;
-  let currentDate = new Date(startDate);
+  const currentDate = new Date(startDate);
 
   // Get house sale information
   const houseSaleDate = data.sellingHouse?.sellingDate
@@ -149,7 +146,8 @@ export function calculateProjections(
     // Exclude cancelled loans if current date is on or after house sale date
     let loanPayments = 0;
     data.loans.forEach((loan) => {
-      const isLoanCancelled = houseSaleDate && currentDate >= houseSaleDate && cancelledLoanIds.has(loan.id);
+      const isLoanCancelled =
+        houseSaleDate && currentDate >= houseSaleDate && cancelledLoanIds.has(loan.id);
       if (!isLoanCancelled) {
         const { monthlyPayment } = calculateLoanBalance(loan, currentDate);
         loanPayments += monthlyPayment;

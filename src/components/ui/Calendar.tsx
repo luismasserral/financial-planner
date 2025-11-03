@@ -29,8 +29,10 @@ export function Calendar({
         caption_label: 'hidden',
         dropdowns: 'flex gap-2',
         dropdown: 'relative inline-flex items-center',
-        months_dropdown: 'appearance-none bg-white border-0 text-sm font-medium text-gray-900 pr-6 pl-2 py-1 cursor-pointer hover:bg-gray-50 rounded focus:outline-none focus:ring-2 focus:ring-blue-500',
-        years_dropdown: 'appearance-none bg-white border-0 text-sm font-medium text-gray-900 pr-6 pl-2 py-1 cursor-pointer hover:bg-gray-50 rounded focus:outline-none focus:ring-2 focus:ring-blue-500',
+        months_dropdown:
+          'appearance-none bg-white border-0 text-sm font-medium text-gray-900 pr-6 pl-2 py-1 cursor-pointer hover:bg-gray-50 rounded focus:outline-none focus:ring-2 focus:ring-blue-500',
+        years_dropdown:
+          'appearance-none bg-white border-0 text-sm font-medium text-gray-900 pr-6 pl-2 py-1 cursor-pointer hover:bg-gray-50 rounded focus:outline-none focus:ring-2 focus:ring-blue-500',
         chevron: 'fill-gray-600 w-3 h-3 ml-1',
         nav: 'flex items-center gap-1 absolute right-0',
         button_previous: cn(

@@ -122,18 +122,10 @@ export function RecurringIncome() {
                       {formatCurrency(item.amount)}
                     </span>
                     <div className="flex gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleOpenModal(item)}
-                      >
+                      <Button variant="ghost" size="sm" onClick={() => handleOpenModal(item)}>
                         <Pencil className="w-4 h-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDelete(item.id)}
-                      >
+                      <Button variant="ghost" size="sm" onClick={() => handleDelete(item.id)}>
                         <Trash2 className="w-4 h-4 text-red-600" />
                       </Button>
                     </div>
@@ -180,7 +172,8 @@ export function RecurringIncome() {
             onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
           />
           <p className="text-sm text-gray-600">
-            Leave dates empty for income that is always active. Set dates to limit when this income applies.
+            Leave dates empty for income that is always active. Set dates to limit when this income
+            applies.
           </p>
           <div className="flex gap-2 justify-end">
             <Button type="button" variant="secondary" onClick={handleCloseModal}>

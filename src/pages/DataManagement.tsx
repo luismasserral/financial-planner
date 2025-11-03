@@ -146,8 +146,8 @@ export function DataManagement() {
               <div>
                 <p className="font-semibold text-yellow-800">Warning</p>
                 <p className="text-sm text-yellow-700">
-                  Importing data will completely replace your current data. Make sure to export
-                  your current data first if you want to keep a backup.
+                  Importing data will completely replace your current data. Make sure to export your
+                  current data first if you want to keep a backup.
                 </p>
               </div>
             </div>

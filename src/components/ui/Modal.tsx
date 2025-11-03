@@ -36,22 +36,16 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
 
       {/* Modal */}
       <div
-        className={cn(
-          'relative bg-white rounded-lg shadow-xl max-h-[90vh] overflow-y-auto',
-          {
-            'w-full max-w-md': size === 'sm',
-            'w-full max-w-lg': size === 'md',
-            'w-full max-w-2xl': size === 'lg',
-          }
-        )}
+        className={cn('relative bg-white rounded-lg shadow-xl max-h-[90vh] overflow-y-auto', {
+          'w-full max-w-md': size === 'sm',
+          'w-full max-w-lg': size === 'md',
+          'w-full max-w-2xl': size === 'lg',
+        })}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
-          >
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>

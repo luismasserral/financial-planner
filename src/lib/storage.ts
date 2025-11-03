@@ -53,7 +53,7 @@ export function importData(file: File): Promise<FinancialData> {
       try {
         const data = JSON.parse(e.target?.result as string);
         resolve(data);
-      } catch (error) {
+      } catch {
         reject(new Error('Invalid JSON file'));
       }
     };

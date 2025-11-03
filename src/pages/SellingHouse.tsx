@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { CheckCircle2, Circle, Home } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
@@ -42,7 +42,7 @@ export function SellingHouse() {
 
     // Calculate final amount with safety margin
     const finalAmountBeforeMargin = amountAfterAgency - totalLoansToPay;
-    const safetyMargin = finalAmountBeforeMargin * 0.10;
+    const safetyMargin = finalAmountBeforeMargin * 0.1;
     const finalAmount = finalAmountBeforeMargin - safetyMargin;
 
     // Manage one-off income entry
@@ -102,7 +102,7 @@ export function SellingHouse() {
   const finalAmountBeforeMargin = amountAfterAgency - totalLoansToPay;
 
   // Apply 10% safety margin
-  const safetyMargin = finalAmountBeforeMargin * 0.10;
+  const safetyMargin = finalAmountBeforeMargin * 0.1;
   const finalAmount = finalAmountBeforeMargin - safetyMargin;
 
   const toggleLoanSelection = (loanId: string) => {
@@ -366,9 +366,7 @@ export function SellingHouse() {
                         {isSelected && (
                           <div className="pt-3 border-t border-orange-200">
                             <div className="flex justify-between items-center">
-                              <span className="text-sm font-medium text-orange-700">
-                                Will pay:
-                              </span>
+                              <span className="text-sm font-medium text-orange-700">Will pay:</span>
                               <span className="text-lg font-bold text-orange-700">
                                 {formatCurrency(details.currentBalance)}
                               </span>
