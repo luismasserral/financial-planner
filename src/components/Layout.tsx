@@ -14,12 +14,20 @@ import {
   Percent,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useFinancial } from '../context/FinancialContext';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-const menuItems = [
+interface MenuItem {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  path: string;
+  freelanceOnly?: boolean;
+}
+
+const allMenuItems: MenuItem[] = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
   { icon: BarChart3, label: 'Progress Tracking', path: '/progress' },
   { icon: TrendingUp, label: 'Recurring Income', path: '/recurring-income' },
@@ -29,12 +37,17 @@ const menuItems = [
   { icon: PlusCircle, label: 'One-off Income', path: '/one-off-income' },
   { icon: MinusCircle, label: 'One-off Expenses', path: '/one-off-expenses' },
   { icon: Settings, label: 'Settings', path: '/settings' },
-  { icon: Percent, label: 'IRPF Settings', path: '/irpf-settings' },
+  { icon: Percent, label: 'IRPF Settings', path: '/irpf-settings', freelanceOnly: true },
   { icon: Database, label: 'Data Management', path: '/data-management' },
 ];
 
 export function Layout({ children }: LayoutProps) {
   const location = useLocation();
+  const { data } = useFinancial();
+  const isFreelanceMode = data.settings.isFreelanceMode !== false; // Default to true
+
+  // Filter menu items based on freelance mode
+  const menuItems = allMenuItems.filter((item) => !item.freelanceOnly || isFreelanceMode);
 
   return (
     <div className="flex h-screen bg-gray-50">

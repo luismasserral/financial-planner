@@ -14,6 +14,8 @@ export function OneOffIncome() {
   const [editingItem, setEditingItem] = useState<OneOffIncomeType | null>(null);
   const [formData, setFormData] = useState({ title: '', amount: '', date: '', iva: '', irpf: '' });
 
+  const isFreelanceMode = data.settings.isFreelanceMode !== false; // Default to true
+
   const handleOpenModal = (item?: OneOffIncomeType) => {
     if (item) {
       // Prevent editing house sale income
@@ -157,7 +159,7 @@ export function OneOffIncome() {
                         <p className="text-xs text-blue-600 mt-1">
                           Managed from Selling House page
                         </p>
-                      ) : (
+                      ) : isFreelanceMode ? (
                         <div className="mt-2 text-xs text-gray-600">
                           <div>Base: {formatCurrency(item.amount)}</div>
                           <div className={item.iva ? 'text-green-600' : 'text-gray-400'}>
@@ -168,6 +170,10 @@ export function OneOffIncome() {
                             -IRPF ({item.irpf || 0}%):{' '}
                             {formatCurrency(item.irpf ? item.amount * (item.irpf / 100) : 0)}
                           </div>
+                        </div>
+                      ) : (
+                        <div className="mt-2 text-xs text-gray-600">
+                          <div>Amount: {formatCurrency(item.amount)}</div>
                         </div>
                       )}
                     </div>
@@ -219,31 +225,35 @@ export function OneOffIncome() {
             placeholder="0.00"
             required
           />
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="IVA % (Optional)"
-              type="number"
-              step="0.01"
-              min="0"
-              max="100"
-              value={formData.iva}
-              onChange={(e) => setFormData({ ...formData, iva: e.target.value })}
-              placeholder="e.g., 21"
-            />
-            <Input
-              label="IRPF % (Optional)"
-              type="number"
-              step="0.01"
-              min="0"
-              max="100"
-              value={formData.irpf}
-              onChange={(e) => setFormData({ ...formData, irpf: e.target.value })}
-              placeholder="e.g., 15"
-            />
-          </div>
-          <p className="text-sm text-gray-600">
-            IVA is added to the amount, IRPF is subtracted. Leave empty if not applicable.
-          </p>
+          {isFreelanceMode && (
+            <>
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="IVA % (Optional)"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="100"
+                  value={formData.iva}
+                  onChange={(e) => setFormData({ ...formData, iva: e.target.value })}
+                  placeholder="e.g., 21"
+                />
+                <Input
+                  label="IRPF % (Optional)"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="100"
+                  value={formData.irpf}
+                  onChange={(e) => setFormData({ ...formData, irpf: e.target.value })}
+                  placeholder="e.g., 15"
+                />
+              </div>
+              <p className="text-sm text-gray-600">
+                IVA is added to the amount, IRPF is subtracted. Leave empty if not applicable.
+              </p>
+            </>
+          )}
           <Input
             label="Date"
             type="date"

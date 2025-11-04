@@ -22,6 +22,8 @@ export function RecurringIncome() {
     irpf: '',
   });
 
+  const isFreelanceMode = data.settings.isFreelanceMode !== false; // Default to true
+
   const handleOpenModal = (item?: RecurringIncomeType) => {
     if (item) {
       setEditingItem(item);
@@ -304,203 +306,216 @@ export function RecurringIncome() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div
+        className={`grid grid-cols-1 md:grid-cols-2 ${isFreelanceMode ? 'lg:grid-cols-4' : ''} gap-6 mb-6`}
+      >
         <Card>
           <CardHeader>
             <CardTitle>Monthly Income Received</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold text-green-600">{formatCurrency(total)}</p>
-            <p className="text-sm text-gray-600 mt-1">After IVA/IRPF withholding</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Quarterly IVA Payment</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-purple-600">
-              {formatCurrency(taxInfo.quarterlyIVA)}
-            </p>
-            <p className="text-sm text-gray-600 mt-1">Paid in Jan, Apr, Jul, Oct (20th)</p>
-            <p className="text-xs text-gray-500 mt-1">
-              Annual: {formatCurrency(taxInfo.annualIVA)}
+            <p className="text-sm text-gray-600 mt-1">
+              {isFreelanceMode ? 'After IVA/IRPF withholding' : 'Total monthly income'}
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Quarterly IRPF Advance</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-purple-600">
-              {formatCurrency(taxInfo.quarterlyAdvancePayment)}
-            </p>
-            <p className="text-sm text-gray-600 mt-1">20% advance (Jan, Apr, Jul, Oct)</p>
-            <p className="text-xs text-gray-500 mt-1">
-              Total advances: {formatCurrency(taxInfo.annualAdvancePayments)}
-            </p>
-          </CardContent>
-        </Card>
+        {isFreelanceMode && (
+          <>
+            <Card>
+              <CardHeader>
+                <CardTitle>Quarterly IVA Payment</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-bold text-purple-600">
+                  {formatCurrency(taxInfo.quarterlyIVA)}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">Paid in Jan, Apr, Jul, Oct (20th)</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Annual: {formatCurrency(taxInfo.annualIVA)}
+                </p>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Annual Renta (July 31st)</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-purple-600">
-              {formatCurrency(taxInfo.annualRenta)}
-            </p>
-            <p className="text-sm text-gray-600 mt-1">Final settlement after advances</p>
-            <p className="text-xs text-gray-500 mt-1">
-              Total IRPF: {formatCurrency(taxInfo.annualIRPFTotal)}
-            </p>
-          </CardContent>
-        </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Quarterly IRPF Advance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-bold text-purple-600">
+                  {formatCurrency(taxInfo.quarterlyAdvancePayment)}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">20% advance (Jan, Apr, Jul, Oct)</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Total advances: {formatCurrency(taxInfo.annualAdvancePayments)}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Annual Renta (July 31st)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-bold text-purple-600">
+                  {formatCurrency(taxInfo.annualRenta)}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">Final settlement after advances</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Total IRPF: {formatCurrency(taxInfo.annualIRPFTotal)}
+                </p>
+              </CardContent>
+            </Card>
+          </>
+        )}
       </div>
 
       {/* Additional Info Card */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle>Tax Payment Schedule</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-2">
-                Quarterly Payments (20th of month):
-              </h3>
-              <ul className="space-y-1 text-gray-600">
-                <li>
-                  • <strong>January 20:</strong> IRPF{' '}
-                  {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA{' '}
-                  {formatCurrency(taxInfo.quarterlyIVA)} (Oct-Dec)
-                </li>
-                <li>
-                  • <strong>April 20:</strong> IRPF{' '}
-                  {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA{' '}
-                  {formatCurrency(taxInfo.quarterlyIVA)} (Jan-Mar)
-                </li>
-                <li>
-                  • <strong>July 20:</strong> IRPF {formatCurrency(taxInfo.quarterlyAdvancePayment)}{' '}
-                  + IVA {formatCurrency(taxInfo.quarterlyIVA)} (Apr-Jun)
-                </li>
-                <li>
-                  • <strong>October 20:</strong> IRPF{' '}
-                  {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA{' '}
-                  {formatCurrency(taxInfo.quarterlyIVA)} (Jul-Sep)
-                </li>
-              </ul>
+      {isFreelanceMode && (
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Tax Payment Schedule</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  Quarterly Payments (20th of month):
+                </h3>
+                <ul className="space-y-1 text-gray-600">
+                  <li>
+                    • <strong>January 20:</strong> IRPF{' '}
+                    {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA{' '}
+                    {formatCurrency(taxInfo.quarterlyIVA)} (Oct-Dec)
+                  </li>
+                  <li>
+                    • <strong>April 20:</strong> IRPF{' '}
+                    {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA{' '}
+                    {formatCurrency(taxInfo.quarterlyIVA)} (Jan-Mar)
+                  </li>
+                  <li>
+                    • <strong>July 20:</strong> IRPF{' '}
+                    {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA{' '}
+                    {formatCurrency(taxInfo.quarterlyIVA)} (Apr-Jun)
+                  </li>
+                  <li>
+                    • <strong>October 20:</strong> IRPF{' '}
+                    {formatCurrency(taxInfo.quarterlyAdvancePayment)} + IVA{' '}
+                    {formatCurrency(taxInfo.quarterlyIVA)} (Jul-Sep)
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">Annual Payment:</h3>
+                <ul className="space-y-1 text-gray-600">
+                  <li>
+                    • <strong>July 31:</strong> Renta {formatCurrency(taxInfo.annualRenta)}
+                  </li>
+                  <li className="text-xs mt-2">
+                    (Total IRPF {formatCurrency(taxInfo.annualIRPFTotal)} - Advances{' '}
+                    {formatCurrency(taxInfo.annualAdvancePayments)} - Withheld{' '}
+                    {formatCurrency(taxInfo.annualIRPFWithheld)})
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Annual Payment:</h3>
-              <ul className="space-y-1 text-gray-600">
-                <li>
-                  • <strong>July 31:</strong> Renta {formatCurrency(taxInfo.annualRenta)}
-                </li>
-                <li className="text-xs mt-2">
-                  (Total IRPF {formatCurrency(taxInfo.annualIRPFTotal)} - Advances{' '}
-                  {formatCurrency(taxInfo.annualAdvancePayments)} - Withheld{' '}
-                  {formatCurrency(taxInfo.annualIRPFWithheld)})
-                </li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Yearly Income Calculator */}
-      <Card className="mb-6">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Yearly Income Calculator</CardTitle>
-            <select
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              {yearOptions.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600 mb-1">Total Income (Base)</div>
-              <div className="text-2xl font-bold text-blue-600">
-                {formatCurrency(yearlyData.yearlyIncome)}
-              </div>
-              <div className="text-xs text-gray-500 mt-1">Before taxes</div>
+      {isFreelanceMode && (
+        <Card className="mb-6">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>Yearly Income Calculator</CardTitle>
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {yearOptions.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600 mb-1">Professional Expenses</div>
-              <div className="text-2xl font-bold text-purple-600">
-                {formatCurrency(yearlyData.yearlyProfessionalExpenses)}
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">Total Income (Base)</div>
+                <div className="text-2xl font-bold text-blue-600">
+                  {formatCurrency(yearlyData.yearlyIncome)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">Before taxes</div>
               </div>
-              <div className="text-xs text-gray-500 mt-1">Tax-deductible</div>
-            </div>
-            <div className="bg-orange-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600 mb-1">Net Taxable Income</div>
-              <div className="text-2xl font-bold text-orange-600">
-                {formatCurrency(yearlyData.netTaxableIncome)}
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">Professional Expenses</div>
+                <div className="text-2xl font-bold text-purple-600">
+                  {formatCurrency(yearlyData.yearlyProfessionalExpenses)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">Tax-deductible</div>
               </div>
-              <div className="text-xs text-gray-500 mt-1">Income - Expenses</div>
-            </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600 mb-1">IVA Collected</div>
-              <div className="text-2xl font-bold text-purple-600">
-                {formatCurrency(yearlyData.yearlyIVACollected)}
+              <div className="bg-orange-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">Net Taxable Income</div>
+                <div className="text-2xl font-bold text-orange-600">
+                  {formatCurrency(yearlyData.netTaxableIncome)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">Income - Expenses</div>
               </div>
-              <div className="text-xs text-gray-500 mt-1">To return quarterly</div>
-            </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600 mb-1">IRPF Withheld</div>
-              <div className="text-2xl font-bold text-purple-600">
-                {formatCurrency(yearlyData.yearlyIRPFWithheld)}
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">IVA Collected</div>
+                <div className="text-2xl font-bold text-purple-600">
+                  {formatCurrency(yearlyData.yearlyIVACollected)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">To return quarterly</div>
               </div>
-              <div className="text-xs text-gray-500 mt-1">Already deducted</div>
-            </div>
-          </div>
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="bg-green-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600 mb-1">Net Income Received</div>
-              <div className="text-2xl font-bold text-green-600">
-                {formatCurrency(yearlyData.netIncome)}
-              </div>
-              <div className="text-xs text-gray-500 mt-1">After IVA/IRPF withholding</div>
-            </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600 mb-1">Total IRPF (from brackets)</div>
-              <div className="text-xl font-bold text-purple-600">
-                {formatCurrency(yearlyData.annualIRPFTotal)}
-              </div>
-              <div className="text-xs text-gray-500 mt-1">Calculated from tax brackets</div>
-            </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600 mb-1">Quarterly Advances (20%)</div>
-              <div className="text-xl font-bold text-purple-600">
-                {formatCurrency(yearlyData.annualAdvancePayments)}
-              </div>
-              <div className="text-xs text-gray-500 mt-1">Paid throughout the year</div>
-            </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600 mb-1">Renta (July 31st)</div>
-              <div className="text-xl font-bold text-purple-600">
-                {formatCurrency(yearlyData.annualRenta)}
-              </div>
-              <div className="text-xs text-gray-500 mt-1">
-                Final settlement (Total - Advances - Withheld)
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">IRPF Withheld</div>
+                <div className="text-2xl font-bold text-purple-600">
+                  {formatCurrency(yearlyData.yearlyIRPFWithheld)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">Already deducted</div>
               </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="bg-green-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">Net Income Received</div>
+                <div className="text-2xl font-bold text-green-600">
+                  {formatCurrency(yearlyData.netIncome)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">After IVA/IRPF withholding</div>
+              </div>
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">Total IRPF (from brackets)</div>
+                <div className="text-xl font-bold text-purple-600">
+                  {formatCurrency(yearlyData.annualIRPFTotal)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">Calculated from tax brackets</div>
+              </div>
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">Quarterly Advances (20%)</div>
+                <div className="text-xl font-bold text-purple-600">
+                  {formatCurrency(yearlyData.annualAdvancePayments)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">Paid throughout the year</div>
+              </div>
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">Renta (July 31st)</div>
+                <div className="text-xl font-bold text-purple-600">
+                  {formatCurrency(yearlyData.annualRenta)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  Final settlement (Total - Advances - Withheld)
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <Card>
         <CardContent>
@@ -522,17 +537,23 @@ export function RecurringIncome() {
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-900">{item.title}</h3>
                       <p className="text-sm text-gray-500">Monthly</p>
-                      <div className="mt-2 text-xs text-gray-600">
-                        <div>Base: {formatCurrency(item.amount)}</div>
-                        <div className={item.iva ? 'text-green-600' : 'text-gray-400'}>
-                          +IVA ({item.iva || 0}%):{' '}
-                          {formatCurrency(item.iva ? item.amount * (item.iva / 100) : 0)}
+                      {isFreelanceMode ? (
+                        <div className="mt-2 text-xs text-gray-600">
+                          <div>Base: {formatCurrency(item.amount)}</div>
+                          <div className={item.iva ? 'text-green-600' : 'text-gray-400'}>
+                            +IVA ({item.iva || 0}%):{' '}
+                            {formatCurrency(item.iva ? item.amount * (item.iva / 100) : 0)}
+                          </div>
+                          <div className={item.irpf ? 'text-red-600' : 'text-gray-400'}>
+                            -IRPF ({item.irpf || 0}%):{' '}
+                            {formatCurrency(item.irpf ? item.amount * (item.irpf / 100) : 0)}
+                          </div>
                         </div>
-                        <div className={item.irpf ? 'text-red-600' : 'text-gray-400'}>
-                          -IRPF ({item.irpf || 0}%):{' '}
-                          {formatCurrency(item.irpf ? item.amount * (item.irpf / 100) : 0)}
+                      ) : (
+                        <div className="mt-2 text-xs text-gray-600">
+                          <div>Amount: {formatCurrency(item.amount)}</div>
                         </div>
-                      </div>
+                      )}
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
@@ -580,31 +601,35 @@ export function RecurringIncome() {
             placeholder="0.00"
             required
           />
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="IVA % (Optional)"
-              type="number"
-              step="0.01"
-              min="0"
-              max="100"
-              value={formData.iva}
-              onChange={(e) => setFormData({ ...formData, iva: e.target.value })}
-              placeholder="e.g., 21"
-            />
-            <Input
-              label="IRPF % (Optional)"
-              type="number"
-              step="0.01"
-              min="0"
-              max="100"
-              value={formData.irpf}
-              onChange={(e) => setFormData({ ...formData, irpf: e.target.value })}
-              placeholder="e.g., 15"
-            />
-          </div>
-          <p className="text-sm text-gray-600">
-            IVA is added to the amount, IRPF is subtracted. Leave empty if not applicable.
-          </p>
+          {isFreelanceMode && (
+            <>
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="IVA % (Optional)"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="100"
+                  value={formData.iva}
+                  onChange={(e) => setFormData({ ...formData, iva: e.target.value })}
+                  placeholder="e.g., 21"
+                />
+                <Input
+                  label="IRPF % (Optional)"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="100"
+                  value={formData.irpf}
+                  onChange={(e) => setFormData({ ...formData, irpf: e.target.value })}
+                  placeholder="e.g., 15"
+                />
+              </div>
+              <p className="text-sm text-gray-600">
+                IVA is added to the amount, IRPF is subtracted. Leave empty if not applicable.
+              </p>
+            </>
+          )}
           <Input
             label="Start Date (Optional)"
             type="date"

@@ -63,6 +63,7 @@ export interface Settings {
   dashboardDate?: string;
   monthlyExpensesDeviation?: number; // Percentage (e.g., 10 for 10%)
   irpfBrackets?: IRPFBracket[];
+  isFreelanceMode?: boolean; // When false, no IRPF, IVA, or Renta calculations
 }
 
 export interface FinancialData {
