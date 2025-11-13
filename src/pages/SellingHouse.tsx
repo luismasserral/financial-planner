@@ -40,10 +40,8 @@ export function SellingHouse() {
         return sum + details.currentBalance;
       }, 0);
 
-    // Calculate final amount with safety margin
-    const finalAmountBeforeMargin = amountAfterAgency - totalLoansToPay;
-    const safetyMargin = finalAmountBeforeMargin * 0.1;
-    const finalAmount = finalAmountBeforeMargin - safetyMargin;
+    // Calculate final amount
+    const finalAmount = amountAfterAgency - totalLoansToPay;
 
     // Manage one-off income entry
     let newOneOffIncome = [...data.oneOffIncome];
@@ -98,12 +96,8 @@ export function SellingHouse() {
       return sum + details.currentBalance;
     }, 0);
 
-  // Final amount in bank account (before safety margin)
-  const finalAmountBeforeMargin = amountAfterAgency - totalLoansToPay;
-
-  // Apply 10% safety margin
-  const safetyMargin = finalAmountBeforeMargin * 0.1;
-  const finalAmount = finalAmountBeforeMargin - safetyMargin;
+  // Final amount in bank account
+  const finalAmount = amountAfterAgency - totalLoansToPay;
 
   const toggleLoanSelection = (loanId: string) => {
     setSelectedLoans((prev) => {
@@ -238,14 +232,6 @@ export function SellingHouse() {
                     </span>
                   </div>
                 )}
-
-                {/* Safety Margin */}
-                <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                  <span className="text-gray-700 font-medium">Safety Margin (10%)</span>
-                  <span className="text-xl font-semibold text-purple-600">
-                    -{formatCurrency(safetyMargin)}
-                  </span>
-                </div>
 
                 {/* Final Amount */}
                 <div className="flex justify-between items-center py-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg px-4 mt-4">
@@ -404,10 +390,6 @@ export function SellingHouse() {
                   to pay off, totaling <strong>{formatCurrency(totalLoansToPay)}</strong>
                 </p>
               )}
-              <p className="text-gray-700">
-                • A 10% safety margin has been applied:{' '}
-                <strong>{formatCurrency(safetyMargin)}</strong>
-              </p>
               <p className="text-gray-700 pt-2 text-base">
                 • <strong>Final amount in your bank account:</strong>{' '}
                 <span
@@ -437,9 +419,8 @@ export function SellingHouse() {
             <p>2. Agency commission is calculated as 3.5% of the sale price</p>
             <p>3. VAT (21%) is then applied to the agency commission amount</p>
             <p>4. Select which loans you want to pay off with the proceeds from the sale</p>
-            <p>5. A 10% safety margin is applied to account for unexpected costs</p>
             <p>
-              6. The final amount shows what you'll have left in your bank account after all
+              5. The final amount shows what you'll have left in your bank account after all
               deductions
             </p>
           </div>
