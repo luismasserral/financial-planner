@@ -302,6 +302,7 @@ export function calculateProjections(data: FinancialData, maxDate: Date): Monthl
         // Note: Only recurring income is included, not one-off income
         let quarterIncome = 0;
         let quarterIVA = 0;
+        let quarterIRPFWithheld = 0;
         let quarterProfessionalExpenses = 0;
         for (let m = quarterStartMonth; m < quarterStartMonth + 3; m++) {
           const testDate = new Date(paymentYear, m, 1);
@@ -311,6 +312,9 @@ export function calculateProjections(data: FinancialData, maxDate: Date): Monthl
               quarterIncome += item.amount;
               if (item.iva) {
                 quarterIVA += item.amount * (item.iva / 100);
+              }
+              if (item.irpf) {
+                quarterIRPFWithheld += item.amount * (item.irpf / 100);
               }
             });
           // Add professional expenses for this month
@@ -322,8 +326,9 @@ export function calculateProjections(data: FinancialData, maxDate: Date): Monthl
         }
 
         // IRPF: Pay 20% of net quarter income (income - professional expenses) as advance payment
+        // Subtract IRPF already withheld during the quarter
         const netQuarterIncome = Math.max(0, quarterIncome - quarterProfessionalExpenses);
-        quarterlyIRPF = netQuarterIncome * 0.2;
+        quarterlyIRPF = Math.max(0, netQuarterIncome * 0.2 - quarterIRPFWithheld);
 
         // IVA: Return all IVA collected in the quarter
         quarterlyIVA = quarterIVA;
